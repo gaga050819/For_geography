@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Велика Британія — інтерактивний путівник</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap">
+<style>
+:root{--f:"Old Standard TT",Georgia,serif;--bg:#f3ead3;--bg2:#eadfc0;--card:#faf4e3;--ink:#1a2744;--mut:#5a6278;--acc:#a8261e;--on:#faf4e3;--blue:#1f4382;--line:#d8caa3;--nav:rgba(243,234,211,.9);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111a2c;--bg2:#16213a;--card:#1a2641;--ink:#f2e9d2;--mut:#aab2c5;--acc:#e5b550;--on:#111a2c;--blue:#9db7e6;--line:#2c3a5c;--nav:rgba(17,26,44,.9);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111a2c;--bg2:#16213a;--card:#1a2641;--ink:#f2e9d2;--mut:#aab2c5;--acc:#e5b550;--on:#111a2c;--blue:#9db7e6;--line:#2c3a5c;--nav:rgba(17,26,44,.9);color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--nav);backdrop-filter:blur(10px)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header>b,h1,h2,h3,strong,.yr,.dig{font-family:var(--f)}
+header>b{font-size:21px}
+nav{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+nav a{padding:6px 12px;border-radius:99px;color:var(--mut);text-decoration:none;font-size:14px;white-space:nowrap}
+nav a.on,nav a:hover{background:var(--acc);color:var(--on)}
+#bar{position:absolute;inset:auto 0 -1px;height:3px;background:var(--acc);transform:scaleX(0);transform-origin:0 50%}
+#th{width:38px;height:38px;padding:0;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:19px}
+button{font:inherit;color:inherit}
+.ic{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.18em}
+.btn,.chip{cursor:pointer;border:1px solid var(--acc);border-radius:99px;background:none;color:var(--acc);padding:9px 18px}
+.chip{padding:5px 14px;font-size:14px}
+.btn:hover,.chip:hover,.chip.on{background:var(--acc);color:var(--on)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.col{flex-direction:column;align-items:flex-start}
+section{max-width:1040px;margin:0 auto;padding:64px 20px}
+.top{background:linear-gradient(var(--bg2),var(--bg))}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;padding-top:56px}
+h1{font-size:clamp(42px,8vw,84px);line-height:1.02;margin:0 0 .3em}
+h2{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:0 0 .3em}
+h3{margin:0 0 .5em;font-size:26px}
+.lead{color:var(--mut);font-size:18px;max-width:58ch;margin:0 0 24px}
+.dig{font-size:30px;margin:8px 0 0;font-variant-numeric:tabular-nums}
+#ck{width:100%;max-width:340px;justify-self:center}
+.fa{fill:var(--ink)}.fb{fill:var(--card)}
+#ck line{stroke:var(--ink)}
+#ck text{fill:var(--ink);font:700 12px var(--f);text-anchor:middle}
+#hh{stroke-width:5;stroke-linecap:round}#mh{stroke-width:3;stroke-linecap:round}
+#ck #sh{stroke:var(--acc);stroke-width:1.5}
+.pin{fill:var(--acc)}
+.two{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:28px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px}
+#mp{width:100%;max-width:340px}
+.reg{fill:var(--card);stroke:var(--ink);stroke-width:.8;stroke-linejoin:round;cursor:pointer;transition:fill .2s}
+.reg:hover,.reg.on,.reg:focus-visible{fill:var(--acc);fill-opacity:.35;outline:none}
+.cg{cursor:pointer}.city{fill:var(--blue);stroke:var(--bg);stroke-width:1.5}
+.cg:hover .city,.cg.on .city{fill:var(--acc)}
+.cg:focus-visible{outline:none}.cg:focus-visible .city{stroke:var(--ink)}
+#mp text{font:7.5px system-ui;fill:var(--ink);pointer-events:none}
+dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0 0 12px}dt{color:var(--mut)}dd{margin:0}
+.tl{min-height:190px;margin-bottom:18px}
+.yr{font-size:clamp(48px,11vw,80px);font-weight:700;color:var(--acc);line-height:1}
+.pop{animation:pop .45s}@keyframes pop{from{opacity:0;transform:translateY(8px)}}
+input[type=range]{width:100%;accent-color:var(--acc);margin:0 0 14px}
+.flag{width:100%;border:1px solid var(--line)}.flag *{transition:opacity .6s}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.pl{text-align:left;cursor:pointer;border-left:4px solid var(--acc);border-radius:2px}
+.pl .ic{width:34px;height:34px;display:block;margin-bottom:6px;color:var(--acc)}#info .ic{color:var(--acc)}.pl strong{font-size:19px;display:block}.pl small{color:var(--mut)}
+.pl p{display:none;margin:.6em 0 0;font-size:15px;color:var(--mut)}.pl.open p{display:block}
+.fcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.fc{position:relative;height:92px;padding:0;border:0;background:none;cursor:pointer;perspective:700px}
+.fc i{position:absolute;inset:0;display:grid;place-content:center;gap:2px;text-align:center;font-style:normal;border:1px solid var(--line);border-radius:4px;background:var(--card);backface-visibility:hidden;transition:transform .55s}
+.fc i+i{background:var(--blue);color:var(--bg);transform:rotateY(180deg)}
+.fc.f i{transform:rotateY(180deg)}.fc.f i+i{transform:none}
+.fc b{font-size:20px}.fc small{opacity:.75}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}.row:last-child{margin:0}
+.row input{flex:1 1 90px;min-width:0;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.row span{min-width:46px}.row b{color:var(--mut)}
+footer{padding:32px 20px 56px;text-align:center;color:var(--mut);font-size:14px}
+@media(max-width:720px){.hero,.two{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="1"/><path d="M10.4 5h3.2v5.4h7.9v3.2h-7.9V19h-3.2v-5.4H2.5v-3.2h7.9z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-daffodil" viewBox="0 0 24 24"><path d="M12 8.5 9.8 5 12 2l2.2 3z"/><path d="M12 8.5 9.8 5 12 2l2.2 3z" transform="rotate(60 12 12)"/><path d="M12 8.5 9.8 5 12 2l2.2 3z" transform="rotate(120 12 12)"/><path d="M12 8.5 9.8 5 12 2l2.2 3z" transform="rotate(180 12 12)"/><path d="M12 8.5 9.8 5 12 2l2.2 3z" transform="rotate(240 12 12)"/><path d="M12 8.5 9.8 5 12 2l2.2 3z" transform="rotate(300 12 12)"/><circle cx="12" cy="12" r="2.6"/></symbol>
+<symbol id="i-thistle" viewBox="0 0 24 24"><path d="M12 22v-9M12 18c-3.5 0-5.5-2-5.5-5M12 18c3.5 0 5.5-2 5.5-5M8.5 12.5 9.2 7h5.6l.7 5.5zM9.5 7 8 3.5M12 7V2.5M14.5 7 16 3.5"/></symbol>
+<symbol id="i-clover" viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="3.4"/><circle cx="7.6" cy="12.4" r="3.4"/><circle cx="16.4" cy="12.4" r="3.4"/><path d="M12 12.5c0 4 .5 6.5 2.5 9"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6.5-8 12-8 12s-8-5.5-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="i-tower" viewBox="0 0 24 24"><path d="M8.5 22V8h7v14M7 22h10M12 2 8.5 8h7z"/><circle cx="12" cy="13" r="2.4"/><path d="M12 11.8V13l.9.6"/></symbol>
+<symbol id="i-bridge" viewBox="0 0 24 24"><path d="M5 20V8l2-4 2 4v12M15 20V8l2-4 2 4v12M2 20h20M9 10h6M2 16c2.5 0 5-2 7-6M22 16c-2.5 0-5-2-7-6"/></symbol>
+<symbol id="i-wheel" viewBox="0 0 24 24"><circle cx="12" cy="10" r="7.5"/><circle cx="12" cy="10" r="1"/><path d="M12 2.5v15M4.5 10h15M6.7 4.7l10.6 10.6M17.3 4.7 6.7 15.3M12 10l-5 12M12 10l5 12"/></symbol>
+<symbol id="i-museum" viewBox="0 0 24 24"><path d="M12 2.5 20.5 7.5h-17zM4 10h16M6.5 10v8M10.2 10v8M13.8 10v8M17.5 10v8M4 18h16v3H4z"/></symbol>
+<symbol id="i-stones" viewBox="0 0 24 24"><path d="M4 21V10M10 21V10M2.5 7h9v3h-9zM14.5 21V12M20.5 21V12M13 9h9v3h-9zM1 21h22"/></symbol>
+<symbol id="i-castle" viewBox="0 0 24 24"><path d="M4 21V9h3V6h3v3h4V6h3v3h3v12M2 21h20M10 21v-5a2 2 0 0 1 4 0v5"/></symbol>
+<symbol id="i-mountain" viewBox="0 0 24 24"><path d="m8 3 4 8 5-5 5 15H2z"/></symbol>
+<symbol id="i-basalt" viewBox="0 0 24 24"><path d="M3 21V12l3-2 3 2v9M9 21v-6l3-2 3 2v6M15 21V9l3-2 3 2v12M3 21h18"/></symbol>
+<symbol id="i-cliff" viewBox="0 0 24 24"><path d="M3 3h9l-1 5 1.5 4-.5 4H3zM2 20q2.5-2 5 0t5 0 5 0 5 0"/></symbol>
+</svg>
+<header>
+<b>Британія</b>
+<nav><a href="#map">Карта</a><a href="#history">Історія</a><a href="#flag">Прапор</a><a href="#places">Місця</a><a href="#words">Мова</a><a href="#units">Міри</a></nav>
+<button id="th" aria-label="Змінити тему"></button>
+<i id="bar"></i>
+</header>
+<div class="top"><section class="hero">
+<div>
+<h1>Велика Британія</h1>
+<p class="lead">Чотири нації, тисячі років історії й одна чашка чаю на всіх. Торкайся, крути, досліджуй.</p>
+<div class="chips" id="zn"><button class="chip on" data-z="Europe/London">Лондон</button><button class="chip" data-z="Europe/Kyiv">Київ</button></div>
+<p class="dig" id="dg"></p>
+</div>
+<svg id="ck" viewBox="-100 -100 200 200" role="img" aria-label="Годинник"></svg>
+</section></div>
+<section id="map">
+<h2>Карта</h2>
+<p class="lead">Схематична карта: обери країну або місто.</p>
+<div class="two"><svg id="mp" viewBox="0 0 250 365" aria-label="Карта Британії"></svg><aside id="info" class="card" aria-live="polite"></aside></div>
+</section>
+<section id="history">
+<h2>Подорож крізь століття</h2>
+<p class="lead">Тягни повзунок, тисни на рік або запусти автопрогляд.</p>
+<div id="tcard" class="card tl"><div class="yr" id="ty"></div><strong id="tn"></strong><p id="td"></p></div>
+<input id="rg" type="range" min="0" max="9" value="0" aria-label="Рік">
+<div id="tc" class="chips"></div>
+<button id="ap" class="btn">Автопрогляд</button>
+</section>
+<section id="flag">
+<h2>Збери Union Jack</h2>
+<p class="lead">Прапор складається з трьох хрестів. Вмикай і вимикай шари. Уельсу на ньому немає: коли прапор створювали, країна вже входила до складу Англії.</p>
+<div class="two">
+<svg class="flag" viewBox="0 0 60 30" role="img" aria-label="Прапор Сполученого Королівства">
+<clipPath id="t"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath>
+<rect width="60" height="30" fill="#012169"/>
+<path id="a" d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/>
+<path id="p" d="M0,0 60,30M60,0 0,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/>
+<g id="g"><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g>
+</svg>
+<div>
+<div id="fc" class="chips col"><button class="chip on" data-t="a">Шотландія: хрест св. Андрія</button><button class="chip on" data-t="p">Ірландія: хрест св. Патрика</button><button class="chip on" data-t="g">Англія: хрест св. Георгія</button></div>
+<button id="as" class="btn">Показати збірку</button>
+</div>
+</div>
+</section>
+<section id="places">
+<h2>Місця, які варто побачити</h2>
+<p class="lead">Фільтруй за темою, а на картку тисни — з’явиться цікавий факт.</p>
+<div id="lf" class="chips"></div>
+<div id="lg" class="cards"></div>
+</section>
+<section id="words">
+<h2>Британська англійська</h2>
+<p class="lead">Натисни на картку — і побачиш, як те саме слово скажуть у США.</p>
+<div id="fw" class="fcs"></div>
+<button id="fa" class="btn">Перевернути всі</button>
+</section>
+<section id="units">
+<h2>Міри по-британськи</h2>
+<p class="lead">Змінюй будь-яке поле — друге перерахується саме. Британська пінта — 568 мл.</p>
+<div id="un" class="card"></div>
+</section>
+<footer>Цифри округлені, карта схематична. Зроблено з любов’ю до Британії.</footer>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const root=document.documentElement;
+const isDark=()=>(root.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))==='dark';
+const ic=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const icon=()=>{$('#th').innerHTML=ic(isDark()?'sun':'moon')};
+try{const s=localStorage.getItem('gb-theme');if(s)root.dataset.theme=s}catch(e){}
+$('#th').onclick=()=>{const t=isDark()?'light':'dark';root.dataset.theme=t;try{localStorage.setItem('gb-theme',t)}catch(e){}icon()};
+icon();
+
+const ck=$('#ck');
+ck.innerHTML='<circle r="96" class="fa"/><circle r="90" class="fb"/>'+[...Array(60)].map((_,i)=>`<line y1="-84" y2="${i%5?-80:-75}" transform="rotate(${i*6})"/>`).join('')+['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'].map((r,i)=>{const a=(i+1)*Math.PI/6;return `<text x="${(Math.sin(a)*60).toFixed(1)}" y="${(-Math.cos(a)*60+4).toFixed(1)}">${r}</text>`}).join('')+'<line id="hh" y2="-46"/><line id="mh" y2="-70"/><line id="sh" y2="-78"/><circle r="4" class="pin"/>';
+let zone='Europe/London';
+const now=()=>{try{return new Date(new Date().toLocaleString('en-US',{timeZone:zone}))}catch(e){return new Date()}};
+const tick=()=>{const d=now(),s=d.getSeconds(),m=d.getMinutes()+s/60,h=d.getHours()%12+m/60;$('#sh').setAttribute('transform',`rotate(${s*6})`);$('#mh').setAttribute('transform',`rotate(${m*6})`);$('#hh').setAttribute('transform',`rotate(${h*30})`);$('#dg').textContent=(zone==='Europe/London'?'У Лондоні ':'У Києві ')+d.toLocaleTimeString('uk-UA')};
+$('#zn').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;zone=b.dataset.z;$$('#zn .chip').forEach(c=>c.classList.toggle('on',c===b));tick()};
+tick();setInterval(tick,1000);
+
+const links=$$('nav a');
+const sp=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.hash==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+$$('section[id]').forEach(s=>sp.observe(s));
+addEventListener('scroll',()=>{const h=root.scrollHeight-innerHeight;$('#bar').style.transform=`scaleX(${h>0?scrollY/h:0})`},{passive:true});
+
+const N=[
+{n:'Англія',e:'flag',c:'Лондон',p:'≈ 57 млн',l:'англійська',s:'св. Георгій, 23 квітня',t:'Саме тут 1863 року записали перші правила футболу.',d:'-2,55.77 -1.6,55.3 -1.4,55 -1.2,54.6 -0.5,54.45 -0.2,54.1 -0.1,53.6 0.2,53.5 0.35,53.1 0.3,52.9 1,52.95 1.7,52.7 1.75,52.4 1.3,51.95 0.9,51.8 0.8,51.5 1.4,51.35 1.4,51.1 0.9,50.9 0.3,50.77 -0.5,50.8 -1.1,50.8 -1.9,50.7 -2.4,50.6 -3.4,50.6 -3.6,50.2 -4.2,50.35 -5,50.1 -5.7,50.05 -5.45,50.2 -5.1,50.42 -4.95,50.55 -4.53,51.02 -4.1,51.2 -3.5,51.2 -2.98,51.35 -2.7,51.5 -2.65,51.6 -2.7,51.9 -3,52.3 -3.1,52.8 -2.95,53.3 -3.1,53.4 -3,53.65 -3.05,53.82 -2.9,54.1 -3.2,54.1 -3.5,54.4 -3.6,54.55 -3.4,54.85 -3.05,54.95 -2.6,55.3'},
+{n:'Уельс',e:'daffodil',c:'Кардіфф',p:'≈ 3,2 млн',l:'англійська, валлійська',s:'св. Давид, 1 березня',t:'Валлійською країна зветься Cymru, а на її прапорі — червоний дракон.',d:'-2.95,53.3 -3.5,53.32 -4.1,53.3 -4.6,53.4 -4.5,53.2 -4.7,52.8 -4.1,52.7 -4.1,52.4 -4.7,52.1 -5.3,51.88 -5.05,51.7 -4.7,51.65 -3.95,51.6 -3.3,51.4 -3,51.55 -2.65,51.6 -2.7,51.9 -3,52.3 -3.1,52.8'},
+{n:'Шотландія',e:'thistle',c:'Единбург',p:'≈ 5,5 млн',l:'англійська, гельська, скотс',s:'св. Андрій, 30 листопада',t:'Національна тварина — єдиноріг, а навколо берегів розкидано понад 790 островів.',d:'-5,58.6 -3.1,58.65 -3.05,58.4 -3.65,58.1 -4.1,57.85 -4.2,57.5 -3.3,57.7 -2,57.7 -1.8,57.5 -2.1,57.1 -2.7,56.5 -3.4,56.4 -3,56 -2.5,56 -2,55.77 -2.6,55.3 -3.05,54.95 -4.4,54.8 -4.85,54.63 -5.15,54.8 -4.9,55.3 -4.7,55.7 -5.2,55.9 -5.75,55.3 -5.55,56 -5.5,56.4 -6.2,56.7 -5.8,57.2 -5.6,57.6 -5.2,58'},
+{n:'Північна Ірландія',e:'clover',c:'Белфаст',p:'≈ 1,9 млн',l:'англійська, ірландська',s:'св. Патрік, 17 березня',t:'Тут Дорога велетнів і верф, де збудували «Титанік».',d:'-8.2,54.45 -7.7,54.7 -7.3,55.05 -6.6,55.22 -6.05,55.2 -5.8,54.85 -5.5,54.65 -5.5,54.4 -5.9,54.2 -6.2,54.05 -6.7,54.05 -7.5,54.15'}
+];
+const C=[
+['Лондон',-0.13,51.51,0,'Столиця, ≈ 9 млн жителів. Місто на Темзі, де Біг-Бен, Тауер і Букінгемський палац.'],
+['Единбург',-3.19,55.95,0,'Столиця Шотландії. Щоліта тут проходить найбільший у світі мистецький фестиваль Fringe.'],
+['Глазго',-4.25,55.86,1,'Найбільше місто Шотландії, відоме музикою та вуличним мистецтвом.'],
+['Кардіфф',-3.18,51.48,1,'Столиця Уельсу з 1955 року, місто замку й порту.'],
+['Белфаст',-5.93,54.6,1,'Столиця Північної Ірландії, де на верфі збудували «Титанік».'],
+['Манчестер',-2.24,53.48,0,'Колиска промислової революції та дім двох відомих футбольних клубів.'],
+['Ліверпуль',-2.99,53.41,1,'Портове місто, звідки вийшли The Beatles.'],
+['Бірмінгем',-1.9,52.48,0,'Друге за кількістю жителів місто країни, серце британської промисловості.']
+];
+const X=(a,b)=>[((a+8.5)*23.2).toFixed(1),((59-b)*40).toFixed(1)];
+const pts=s=>s.split(' ').map(p=>{const[a,b]=p.split(',');return X(+a,+b)}).join(' ');
+const mp=$('#mp'),info=$('#info');
+mp.innerHTML=N.map((r,i)=>`<polygon class="reg" data-i="${i}" tabindex="0" role="button" aria-label="${r.n}" points="${pts(r.d)}"/>`).join('')+C.map((c,i)=>{const[x,y]=X(c[1],c[2]);return `<g class="cg" data-c="${i}" tabindex="0" role="button" aria-label="${c[0]}"><circle cx="${x}" cy="${y}" r="9" fill="transparent"/><circle class="city" cx="${x}" cy="${y}" r="3.6"/><text x="${+x+(c[3]?-7:7)}" y="${+y+2.6}" text-anchor="${c[3]?'end':'start'}">${c[0]}</text></g>`}).join('');
+mp.onclick=e=>{
+const r=e.target.closest('.reg'),c=e.target.closest('.cg');
+if(!r&&!c)return;
+mp.querySelectorAll('.on').forEach(x=>x.classList.remove('on'));
+(r||c).classList.add('on');
+if(r){const o=N[r.dataset.i];info.innerHTML=`<h3>${ic(o.e)} ${o.n}</h3><dl><dt>Столиця</dt><dd>${o.c}</dd><dt>Населення</dt><dd>${o.p}</dd><dt>Мови</dt><dd>${o.l}</dd><dt>Покровитель</dt><dd>${o.s}</dd></dl><p>${o.t}</p>`}
+else{const o=C[c.dataset.c];info.innerHTML=`<h3>${ic('pin')} ${o[0]}</h3><p>${o[4]}</p>`}
+};
+mp.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mp.onclick(e)}};
+mp.querySelector('.reg').dispatchEvent(new MouseEvent('click',{bubbles:true}));
+
+const T=[
+[43,'Римляни','Імператор Клавдій починає завоювання Британії; згодом виростає Лондініум.'],
+[1066,'Битва при Гастінгсі','Вільгельм Завойовник перемагає й стає королем Англії.'],
+[1215,'Велика хартія вольностей','Король Іоанн підписує хартію, що обмежує владу монарха.'],
+[1666,'Велика лондонська пожежа','Вогонь кілька днів нищить місто; Лондон відбудовують наново.'],
+[1707,'Акт про унію','Англія й Шотландія об’єднуються в Королівство Великої Британії.'],
+[1837,'Епоха Вікторії','Королева Вікторія сходить на престол — починається час промисловості й імперії.'],
+[1940,'Битва за Британію','Королівські ВПС відбивають масовані атаки німецької авіації.'],
+[1952,'Єлизавета II','Вона стає королевою і править понад 70 років.'],
+[2012,'Олімпіада в Лондоні','Лондон — перше місто, що втретє приймає літні Ігри.'],
+[2022,'Карл III','Після смерті Єлизавети II на трон сходить Карл III.']
+];
+const rg=$('#rg');
+$('#tc').innerHTML=T.map((t,i)=>`<button class="chip" data-i="${i}">${t[0]}</button>`).join('');
+const go=i=>{const t=T[i],c=$('#tcard');rg.value=i;$$('#tc .chip').forEach((b,k)=>b.classList.toggle('on',k===i));$('#ty').textContent=t[0]<100?t[0]+' р. н. е.':t[0];$('#tn').textContent=t[1];$('#td').textContent=t[2];c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')};
+rg.oninput=()=>go(+rg.value);
+$('#tc').onclick=e=>{const b=e.target.closest('.chip');if(b)go(+b.dataset.i)};
+let pv=0;
+$('#ap').onclick=function(){if(pv){clearInterval(pv);pv=0;this.textContent='Автопрогляд';return}this.textContent='Зупинити';pv=setInterval(()=>go((+rg.value+1)%T.length),2600)};
+go(0);
+
+const lay=$$('#fc .chip');
+const setL=(b,v)=>{b.classList.toggle('on',v);b.setAttribute('aria-pressed',v);$('#'+b.dataset.t).style.opacity=v?1:0};
+lay.forEach(b=>b.onclick=()=>setL(b,!b.classList.contains('on')));
+$('#as').onclick=()=>{lay.forEach(b=>setL(b,false));lay.forEach((b,i)=>setTimeout(()=>setL(b,true),(i+1)*900))};
+
+const L=[
+['Біг-Бен','tower','Лондон','Вежа Єлизавети має 96 м заввишки. «Біг-Беном» насправді звуть її головний дзвін вагою понад 13 т.'],
+['Тауерський міст','bridge','Лондон','Відкритий 1894 року. Його розвідні прольоти піднімаються, щоб пропустити високі кораблі.'],
+['Лондонське око','wheel','Лондон','Колесо огляду заввишки 135 м відкрили 2000 року; один оберт триває близько 30 хвилин.'],
+['Британський музей','museum','Лондон','Заснований 1753 року. Тут зберігається Розеттський камінь, що допоміг прочитати єгипетські ієрогліфи.'],
+['Стоунгендж','stones','Історія','Кам’яне коло у Вілтширі споруджували понад 4 000 років тому; навіщо — досі сперечаються.'],
+['Едінбурзький замок','castle','Історія','Фортеця стоїть на згаслому вулкані; майже щодня о 13:00 з неї б’є гармата.'],
+['Бен-Невіс','mountain','Природа','Найвища вершина Британії — 1 345 м, у Шотландії.'],
+['Дорога велетнів','basalt','Природа','Близько 40 000 шестикутних базальтових колон на узбережжі Північної Ірландії; об’єкт ЮНЕСКО.'],
+['Білі скелі Дувра','cliff','Природа','Крейдяні обриви заввишки до 110 м дивляться на Ла-Манш і Францію.']
+];
+$('#lf').innerHTML=['Усі',...new Set(L.map(x=>x[2]))].map((t,i)=>`<button class="chip${i?'':' on'}">${t}</button>`).join('');
+$('#lg').innerHTML=L.map(x=>`<button class="card pl" data-t="${x[2]}" aria-expanded="false">${ic(x[1])}<strong>${x[0]}</strong><small>${x[2]}</small><p>${x[3]}</p></button>`).join('');
+$('#lf').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;$$('#lf .chip').forEach(c=>c.classList.toggle('on',c===b));$$('.pl').forEach(p=>p.hidden=b.textContent!=='Усі'&&p.dataset.t!==b.textContent)};
+$('#lg').onclick=e=>{const p=e.target.closest('.pl');if(!p)return;p.setAttribute('aria-expanded',p.classList.toggle('open'))};
+
+const W=[['lift','elevator','ліфт'],['flat','apartment','квартира'],['biscuit','cookie','печиво'],['crisps','chips','чипси'],['lorry','truck','вантажівка'],['boot','trunk','багажник'],['petrol','gas','бензин'],['queue','line','черга'],['jumper','sweater','светр'],['pavement','sidewalk','тротуар'],['rubbish','trash','сміття'],['holiday','vacation','відпустка']];
+$('#fw').innerHTML=W.map(w=>`<button class="fc"><i><b>${w[0]}</b><small>${w[2]}</small></i><i><b>${w[1]}</b><small>у США</small></i></button>`).join('');
+$('#fw').onclick=e=>{const b=e.target.closest('.fc');if(b)b.classList.toggle('f')};
+$('#fa').onclick=()=>{const f=$$('.fc'),all=f.every(b=>b.classList.contains('f'));f.forEach(b=>b.classList.toggle('f',!all))};
+
+const U=[['милі','км',1.609344],['стоуни','кг',6.35029],['пінти','мл',568.261]];
+const nf=v=>isFinite(v)?String(+v.toFixed(2)):'';
+$('#un').innerHTML=U.map(()=>'<div class="row"><input type="number" step="any" inputmode="decimal"><span></span><b>=</b><input type="number" step="any" inputmode="decimal"><span></span></div>').join('');
+$$('#un .row').forEach((r,i)=>{
+const[a,b,k]=U[i],[x,y]=r.querySelectorAll('input'),[s1,s2]=r.querySelectorAll('span');
+s1.textContent=a;s2.textContent=b;x.value=1;y.value=nf(k);
+x.oninput=()=>{y.value=nf(x.value*k)};
+y.oninput=()=>{x.value=nf(y.value/k)};
+});
+</script>
+</body>
+</html>
